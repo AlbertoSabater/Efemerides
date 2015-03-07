@@ -47,30 +47,21 @@ public class SQLiteEvents extends SQLiteOpenHelper {
 	private SQLiteDatabase mDb;
 
 	private static final String DATABASE_NAME = "BD_EVENTS";
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 4;
 
 	private static final String DATABASE_CREATE_EVENTS = "create table events("
 			+ "_idEvent integer primary key autoincrement,"
-			+ "date text not null," + "event text not null,"
+			+ "date DATE not null," + "event text not null,"
 			+ "type integer not null," + "isFavorite integer not null" + ");";
 
 	// 0 -> no favorite ; 1 -> favorite
 
 	private static final String DATABASE_CREATE_FAVORITES = "create table favorites("
-			+ "idFavorite references events(_idEvent)" + ");";
+			+ "_idFav integer primary key references events(_idEvent),"
+			+ "dateFav DATE not null," + "eventFav text not null,"
+			+ "typeFav integer not null," + "isFavoriteFav integer not null" + ");";
 
-	/**
-	 * Database creation sql statement
-	 */
-	/*
-	 * private static final String DATABASE_CREATE =
-	 * "create table notes (_id integer primary key autoincrement, " +
-	 * "title text not null, body text not null);";
-	 * 
-	 * private static final String DATABASE_NAME = "data"; private static final
-	 * String DATABASE_TABLE = "notes"; private static final int
-	 * DATABASE_VERSION = 2;
-	 */
+	
 
 	/**
 	 * Constructor - takes the context to allow the database to be
@@ -135,7 +126,7 @@ public class SQLiteEvents extends SQLiteOpenHelper {
 		SQLiteDatabase db = getReadableDatabase();
 
 		Cursor cursor = db.query("events", new String[] { "_idEvent", "date",
-				"isFavorite", "event", "type" }, null, null, null, null, null);
+				"isFavorite", "event", "type" }, null, null, null, null, "date");
 
 		while (cursor.moveToNext()) {
 
@@ -154,6 +145,33 @@ public class SQLiteEvents extends SQLiteOpenHelper {
 		return result;
 	}
 
+	
+	
+	public Vector<Event> fetchAux(String query) {
+		Vector<Event> result = new Vector<Event>();
+		SQLiteDatabase db = getReadableDatabase();
+
+		Cursor cursor = db.rawQuery(query, null);
+
+		while (cursor.moveToNext()) {
+
+			Event aux = new Event(cursor.getInt(0), cursor.getString(1), false,
+					cursor.getString(2), cursor.getInt(4));
+		
+			if (cursor.getString(4).equals("1")) {
+				aux.setFavorite(true);
+			}
+			
+			result.add(aux);
+		}
+
+		cursor.close();
+
+		return result;
+	}
+	
+	
+	
 	public void insertEvent(Event e) {
 		SQLiteDatabase db = getWritableDatabase();
 
@@ -170,14 +188,15 @@ public class SQLiteEvents extends SQLiteOpenHelper {
 		}
 	}
 
-	public void insertFavorite(int id) {
+	public void insertFavorite(Event e) {
 		SQLiteDatabase db = getWritableDatabase();
-
-		String aux = "INSERT INTO favorites VALUES ( " + id + ")";
-		Log.e("INSERTANDO FAV", aux);
+		
+		String aux = "INSERT INTO favorites VALUES ( " + e.getId() + ", '" + e.getDate()
+				+ "', '" + e.getText() + "', " + e.getType() + ", " + "1)";
+		Log.e("INSERTANDO", aux);
 		db.execSQL(aux);
 
-		aux = "UPDATE events SET isFavorite = 1 WHERE _idEvent = " + id;
+		aux = "UPDATE events SET isFavorite = 1 WHERE _idEvent = " + e.getId();
 		Log.e("UPDATING FAV", aux);
 		db.execSQL(aux);
 	}
@@ -185,7 +204,7 @@ public class SQLiteEvents extends SQLiteOpenHelper {
 	public void deleteFavorite(int id) {
 		SQLiteDatabase db = getWritableDatabase();
 
-		String aux = "DELETE FROM favorites WHERE idFavorite = " + id;
+		String aux = "DELETE FROM favorites WHERE _idFav = " + id;
 		Log.e("INSERTANDO FAV", aux);
 		db.execSQL(aux);
 

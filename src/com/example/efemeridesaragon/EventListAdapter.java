@@ -59,7 +59,7 @@ public class EventListAdapter extends BaseAdapter{
 					list.elementAt(position).setFavorite(true);
 					
 					// Update BD
-					db.insertFavorite(list.elementAt(position).getId());
+					db.insertFavorite(list.elementAt(position));
 				}
 			}
 		});

@@ -24,42 +24,140 @@ public class MainActivity extends ListActivity {
 
 		// this.setTitle("Conversor de Unidades");
 
-		// this.setListAdapter(new EventListAdapter(this, V));
-
-		//db.deleteAllData();
-		//insertarDatos(db);
+		//db.deleteAllData(); 
 
 		Vector<Event> V = db.fetchAllEvents();
 		if (V == null || V.size() == 0) {
-			insertarDatos(db);
        	 	Log.w("INSERTANDO", "Insertando nuevos datos");
-
-		} 
+       	 	insertarDatos(db);
+		}
+		
+		for (Event e : V) {
+			Log.w("EVENTO: ", e.toString());
+		}
 
 		this.setListAdapter(new EventListAdapter(this, db.fetchAllEvents(), db));
+		
+		//pruebaFechas(db);
 
 	}
+	
+	
+	
+	// **************** BORRAR BORRAR BORRAR BORRAR ***************************
+	public void pruebaFechas(SQLiteEvents db) {
+		Event e = new Event(1, "2015-03-04", true, "Prueba de fechas con modulos en la búsqueda", 0);
+		
+		//db.insertEvent(e);
+		
+		//String query = "SELECT _idEvent, strftime('%m-%d', date), event, type, isFavorite FROM events";
+		String query = "SELECT * FROM events WHERE strftime('%d', date) = '04'";
+		
+		Vector<Event> V = db.fetchAux(query);
+		
+		if (V == null || V.size() == 0) {
+       	 	Log.w("V vacio", "V vacio");
+		} 
+		else {
+       	 	Log.w("V NO vacio", "V no vacio");
+		}
+		
+		for (Event d : V) {
+			Log.w("EVENTO: ", d.toString());
+		}
+		
+		this.setListAdapter(new EventListAdapter(this, V, db));
+
+	}
+	
+	
 
 	// **************** BORRAR BORRAR BORRAR BORRAR ***************************
 	public void insertarDatos(SQLiteEvents db) {
 		Vector<Event> V = new Vector<Event>();
 		
-		V.add(new Event(1,"fecha1", false, "texto1",1));
-        V.add(new Event(2,"fecha2", false, "texto2",1));
-        V.add(new Event(3,"fecha3", false, "texto3",1));
-        V.add(new Event(4,"fecha4", false, "texto4",1));
-        V.add(new Event(5,"fecha5", false, "texto5",1));
-        V.add(new Event(6,"fecha6", false, "texto6",1));
-        V.add(new Event(7,"fecha7", false, "texto7",1));
-        V.add(new Event(8,"fecha8", false, "texto8",1));
-        V.add(new Event(9,"fecha9", false, "texto9",1));
-        V.add(new Event(10,"fecha10", false, "texto10",1));
-        V.add(new Event(11,"fecha11", false, "texto11",1));
-        V.add(new Event(12,"fecha12", false, "textoo12",1));
+		V.add(new Event(1,"2015-03-06", false, "texto1",1));
+        V.add(new Event(2,"2015-03-06", false, "texto2",1));
+        V.add(new Event(3,"2015-03-06", false, "texto3",1));
+        V.add(new Event(4,"2015-03-06", false, "texto4",1));
+        V.add(new Event(5,"2015-03-07", false, "texto5",1));
+        V.add(new Event(6,"2015-03-07", false, "texto6",1));
+        V.add(new Event(7,"2015-03-07", false, "texto7",1));
+        V.add(new Event(8,"2015-03-07", false, "texto8",1));
+        V.add(new Event(9,"2015-03-07", false, "texto9",1));
+        V.add(new Event(10,"2015-03-08", false, "texto10",1));
+        V.add(new Event(11,"2015-03-08", false, "texto11",1));
+        V.add(new Event(12,"2015-03-08", false, "textoo12",1));
+		V.add(new Event(1,"2015-03-01", false, "texto1",1));
+		V.add(new Event(1,"2015-03-01", false, "texto1",1));
+		V.add(new Event(1,"2015-03-01", false, "texto1",1));
+		V.add(new Event(1,"2015-03-01", false, "texto1",1));
+		V.add(new Event(1,"2015-03-03", false, "texto1",1));
+		V.add(new Event(1,"2015-03-03", false, "texto1",1));
+		V.add(new Event(1,"2015-03-03", false, "texto1",1));
+		V.add(new Event(1,"2015-03-03", false, "texto1",1));
+		V.add(new Event(1,"2015-03-11", false, "texto1",1));
+		V.add(new Event(1,"2015-03-11", false, "texto1",1));
+		V.add(new Event(1,"2015-03-11", false, "texto1",1));
+		V.add(new Event(1,"2015-03-11", false, "texto1",1));
+		V.add(new Event(1,"2015-03-13", false, "texto1",1));
+		V.add(new Event(1,"2015-03-13", false, "texto1",1));
+		V.add(new Event(1,"2015-03-13", false, "texto1",1));
+
+		V.add(new Event(1,"2015-04-06", false, "texto1",1));
+        V.add(new Event(2,"2015-04-06", false, "texto2",1));
+        V.add(new Event(3,"2015-04-06", false, "texto3",1));
+        V.add(new Event(4,"2015-04-06", false, "texto4",1));
+        V.add(new Event(5,"2015-04-07", false, "texto5",1));
+        V.add(new Event(6,"2015-04-07", false, "texto6",1));
+        V.add(new Event(7,"2015-04-07", false, "texto7",1));
+        V.add(new Event(8,"2015-04-07", false, "texto8",1));
+        V.add(new Event(9,"2015-04-07", false, "texto9",1));
+		V.add(new Event(1,"2015-04-01", false, "texto1",1));
+		V.add(new Event(1,"2015-04-01", false, "texto1",1));
+		V.add(new Event(1,"2015-04-01", false, "texto1",1));
+		V.add(new Event(1,"2015-04-01", false, "texto1",1));
+		V.add(new Event(1,"2015-04-03", false, "texto1",1));
+		V.add(new Event(1,"2015-04-03", false, "texto1",1));
+		V.add(new Event(1,"2015-04-03", false, "texto1",1));
+		V.add(new Event(1,"2015-04-03", false, "texto1",1));
+		V.add(new Event(1,"2015-04-11", false, "texto1",1));
+		V.add(new Event(1,"2015-04-11", false, "texto1",1));
+		V.add(new Event(1,"2015-04-11", false, "texto1",1));
+		V.add(new Event(1,"2015-04-11", false, "texto1",1));
+		V.add(new Event(1,"2015-04-13", false, "texto1",1));
+		V.add(new Event(1,"2015-04-13", false, "texto1",1));
+		V.add(new Event(1,"2015-04-13", false, "texto1",1));
+
+		V.add(new Event(1,"2015-05-06", false, "texto1",1));
+        V.add(new Event(2,"2015-05-06", false, "texto2",1));
+        V.add(new Event(3,"2015-05-06", false, "texto3",1));
+        V.add(new Event(4,"2015-05-06", false, "texto4",1));
+        V.add(new Event(5,"2015-05-07", false, "texto5",1));
+        V.add(new Event(6,"2015-05-07", false, "texto6",1));
+        V.add(new Event(7,"2015-05-07", false, "texto7",1));
+        V.add(new Event(8,"2015-05-07", false, "texto8",1));
+        V.add(new Event(9,"2015-05-07", false, "texto9",1));
+		V.add(new Event(1,"2015-05-01", false, "texto1",1));
+		V.add(new Event(1,"2015-05-01", false, "texto1",1));
+		V.add(new Event(1,"2015-05-01", false, "texto1",1));
+		V.add(new Event(1,"2015-05-01", false, "texto1",1));
+		V.add(new Event(1,"2015-05-03", false, "texto1",1));
+		V.add(new Event(1,"2015-05-03", false, "texto1",1));
+		V.add(new Event(1,"2015-05-03", false, "texto1",1));
+		V.add(new Event(1,"2015-05-03", false, "texto1",1));
+		V.add(new Event(1,"2015-05-11", false, "texto1",1));
+		V.add(new Event(1,"2015-05-11", false, "texto1",1));
+		V.add(new Event(1,"2015-05-11", false, "texto1",1));
+		V.add(new Event(1,"2015-05-11", false, "texto1",1));
+		V.add(new Event(1,"2015-05-13", false, "texto1",1));
+		V.add(new Event(1,"2015-05-13", false, "texto1",1));
+		V.add(new Event(1,"2015-05-13", false, "texto1",1));
+
         
         
         for (Event e : V) {
-       	 	Log.w("INSERTANDO", "Insertando " + e.toString());
+       	 	Log.w("INSERTANDO MAIN", "Insertando " + e.toString());
        	 	db.insertEvent(e);
         }
 	}
